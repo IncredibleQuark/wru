@@ -1,3 +1,7 @@
-<agm-map [(latitude)]="location.lat" [(longitude)]="location.lng" [(zoom)]="location.zoom" [disableDefaultUI]="true" [zoomControl]="true">
-  <agm-marker [(latitude)]="location.marker.lat" [(longitude)]="location.marker.lng" [markerDraggable]="location.marker.draggable"></agm-marker>
-</agm-map>
+<div *ngIf="location">
+  <agm-map [(latitude)]="location.lat" [(longitude)]="location.lng" [(zoom)]="location.zoom" [disableDefaultUI]="true"
+           [zoomControl]="true">
+    <agm-marker *ngIf="userMarker" [(latitude)]="userMarker.lat" [(longitude)]="userMarker.lng"></agm-marker>
+    <agm-marker *ngFor="let marker of markers" [(latitude)]="marker.lat" [(longitude)]="marker.lng"></agm-marker>
+  </agm-map>
+</div>

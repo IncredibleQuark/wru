@@ -1,5 +1,5 @@
-import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
-import { MapsAPILoader, AgmMap } from '@agm/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import { AgmMap } from '@agm/core';
 
 interface Marker {
   lat: number;
@@ -30,24 +30,52 @@ interface GMapLocation {
 export class MapComponent implements OnInit {
 
   public location:any = {
-    lat: 51.678418,
-    lng: 7.809007,
-    marker: {
-      lat: 51.678418,
-      lng: 7.809007,
-      draggable: true
-    },
-    zoom: 5
+    zoom: 16
   };
+
+  public userMarker: Marker;
+  public markers: Marker[] = [];
 
 
   @ViewChild(AgmMap) map: AgmMap;
 
-  constructor(public mapsApiLoader: MapsAPILoader,
-              private zone: NgZone) {
+  constructor() {
   }
 
   ngOnInit() {
+    this.initUserLocation();
+  }
+
+  initUserLocation() {
+
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition((position) => {
+        this.showUserPosition(position);
+      });
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }
+
+  showUserPosition(position) {
+
+    this.location.lat = position.coords.latitude;
+    this.location.lng = position.coords.longitude;
+    this.userMarker = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+      draggable: false
+    };
+
+  }
+
+
+  addOtherUsers(position) {
+    this.markers.push({
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+      draggable: false
+    })
   }
 
 }
