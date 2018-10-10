@@ -6,6 +6,8 @@ import { MapComponent } from './components/board/map/map.component';
 
 import { AgmCoreModule } from '@agm/core';
 import { environment } from '../environments/environment';
+import {AngularFireModule} from "@angular/fire";
+import {AngularFireDatabaseModule} from "@angular/fire/database";
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { environment } from '../environments/environment';
     BrowserModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleApiKey
-    })
+    }),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -5,3 +5,5 @@
     <agm-marker *ngFor="let marker of markers" [(latitude)]="marker.lat" [(longitude)]="marker.lng"></agm-marker>
   </agm-map>
 </div>
+<pre *ngFor="let item of items | async">{{item.content}}</pre>
+<button (click)="test()">ssddd</button>

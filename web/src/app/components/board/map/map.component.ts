@@ -1,5 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { AgmMap } from '@agm/core';
+import {AngularFireAction, AngularFireDatabase} from "@angular/fire/database";
+import {BehaviorSubject, Observable} from "rxjs";
+import {switchMap} from "rxjs/operators";
 
 interface Marker {
   lat: number;
@@ -35,15 +38,25 @@ export class MapComponent implements OnInit {
 
   public userMarker: Marker;
   public markers: Marker[] = [];
-
-
+  items$: Observable<AngularFireAction<firebase.database.DataSnapshot>[]>;
+  size$: BehaviorSubject<string|null>;
+items;
   @ViewChild(AgmMap) map: AgmMap;
 
-  constructor() {
-  }
+  constructor(public db: AngularFireDatabase) {
+
+      this.items = db.list('items').valueChanges();
+      console.warn(db);
+      console.warn(this.items);
+    }
+
 
   ngOnInit() {
     this.initUserLocation();
+  }
+
+  test() {
+    this.db.list('/items').push({ content: 'dfg' });
   }
 
   initUserLocation() {
