@@ -30,7 +30,7 @@ interface GMapLocation {
 export class MapComponent implements OnInit {
 
   public location:any = {
-    zoom: 16
+    zoom: 18
   };
 
   public userMarker: Marker;
@@ -50,6 +50,7 @@ export class MapComponent implements OnInit {
 
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition((position) => {
+        console.warn(position);
         this.showUserPosition(position);
       });
     } else {
