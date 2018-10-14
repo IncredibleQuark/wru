@@ -8,21 +8,36 @@ import { AgmCoreModule } from '@agm/core';
 import { environment } from '../environments/environment';
 import {AngularFireModule} from "@angular/fire";
 import {AngularFireDatabaseModule} from "@angular/fire/database";
+import {AngularFireAuthModule} from "@angular/fire/auth";
+import { AuthComponent } from './components/auth/auth.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import {RouterModule} from "@angular/router";
+import {rootRouterConfig} from "./app.routes";
+import {AuthGuard} from "./guards/auth.guard";
+import {AuthService} from "./services/auth.service";
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent
+    MapComponent,
+    AuthComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
+    RouterModule.forRoot(rootRouterConfig),
+    AngularFireModule.initializeApp(environment.firebase),
     AgmCoreModule.forRoot({
       apiKey: environment.googleApiKey
     }),
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule
+
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
-  providers: [],
+  providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

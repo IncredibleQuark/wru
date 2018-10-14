@@ -46,8 +46,8 @@ items;
   constructor(public db: AngularFireDatabase) {
 
       this.items = db.list('items').valueChanges();
-      console.warn(db);
-      console.warn(this.items);
+      // console.warn(db);
+      // console.warn(this.items);
     }
 
 
@@ -63,7 +63,7 @@ items;
 
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition((position) => {
-        console.warn(position);
+        // console.warn(position);
         this.showUserPosition(position);
       });
     } else {
