@@ -3,6 +3,7 @@ import { AgmMap } from '@agm/core';
 import {AngularFireAction, AngularFireDatabase} from "@angular/fire/database";
 import {BehaviorSubject, Observable} from "rxjs";
 import {switchMap} from "rxjs/operators";
+import {AngularFirestore} from "@angular/fire/firestore";
 
 interface Marker {
   lat: number;
@@ -43,11 +44,11 @@ export class MapComponent implements OnInit {
 items;
   @ViewChild(AgmMap) map: AgmMap;
 
-  constructor(public db: AngularFireDatabase) {
+  constructor(public db: AngularFirestore) {
 
-      this.items = db.list('items').valueChanges();
+      this.items = db.collection('users').valueChanges();
       // console.warn(db);
-      // console.warn(this.items);
+      console.warn(this.items);
     }
 
 
@@ -56,7 +57,7 @@ items;
   }
 
   test() {
-    this.db.list('/items').push({ content: 'dfg' });
+    // this.db.list('/items').push({ content: 'dfg' });
   }
 
   initUserLocation() {

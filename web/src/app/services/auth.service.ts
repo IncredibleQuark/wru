@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import {AngularFireAuth} from "@angular/fire/auth";
 import * as firebase from 'firebase/app';
+import {AngularFirestore} from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import * as firebase from 'firebase/app';
 
 export class AuthService {
 
-  constructor(public af: AngularFireAuth) {
+  constructor(public af: AngularFireAuth, private db: AngularFirestore) {
 
   }
 
@@ -31,14 +32,13 @@ export class AuthService {
 
       firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
         .then(res => {
-          console.warn(res);
-          // res.auth.updateProfile({
-          //   displayName: <UserName>,
-          //   photoURL: <UserPhotoURLString>
-          // })
-          resolve(res);
-        }, err => {
-          reject(err)
+console.warn(res);
+          this.db.collection('users').add({name: 'asd'}).then( (r) => {
+            resolve(res);
+          }, err1 => reject(err1));
+
+        }, err2 => {
+          reject(err2);
         })
     })
   }
@@ -51,11 +51,17 @@ export class AuthService {
       this.af.auth
         .signInWithPopup(provider)
         .then(res => {
-          resolve(res);
-        }, err => {
-          console.log(err);
-          reject(err);
-        })
+          console.warn(res);
+          if (res.additionalUserInfo.isNewUser) {
+            this.db.collection('users').add({email: res.user.email}).then( (r) => {
+              resolve(res);
+            }, err1 => reject(err1));
+          } else {
+            resolve(res);
+          }
+
+        }, err2 => reject(err2))
     })
   }
+
 }
