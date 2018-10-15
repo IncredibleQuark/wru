@@ -18,7 +18,9 @@ import {AuthGuard} from "./guards/auth.guard";
 import {AuthService} from "./services/auth.service";
 import {NotFoundComponent} from './components/common/not-found/not-found.component';
 import {ReactiveFormsModule} from "@angular/forms";
-
+import {AngularFireStorageModule} from "@angular/fire/storage";
+import {AngularFirestoreModule} from "@angular/fire/firestore";
+import * as firebase from "firebase";
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +39,8 @@ import {ReactiveFormsModule} from "@angular/forms";
       apiKey: environment.googleApiKey
     }),
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
+    AngularFirestoreModule,
     AngularFireAuthModule
   ],
   providers: [AuthGuard, AuthService],

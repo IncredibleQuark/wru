@@ -7,7 +7,8 @@ import {AuthGuard} from "./guards/auth.guard";
 import {NotFoundComponent} from "./components/common/not-found/not-found.component";
 
 export const rootRouterConfig: Routes = [
-  { path: '', component: AuthComponent},
+  { path: '', component: MapComponent, canActivate: [AuthGuard]},
   { path: 'auth', component: AuthComponent },
+  { path: 'map', component: MapComponent},
   {path: '**', component: NotFoundComponent }
 ];

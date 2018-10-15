@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,7 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
 
   }
 
@@ -27,10 +28,19 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  tryGoogleLogin(){
+    this.authService.doGoogleLogin()
+      .then(res =>{
+          this.router.navigate(['/map']);
+        }, err => console.log(err)
+      )
+  }
+
   tryRegister(value) {
     this.authService.doRegister(value)
       .then(res => {
         console.warn(res);
+        this.router.navigate(['/map']);
         // this.errorMessage = "";
         // this.successMessage = "Your account has been created";
       }, err => {
