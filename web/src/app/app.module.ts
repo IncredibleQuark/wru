@@ -21,6 +21,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {AngularFireStorageModule} from "@angular/fire/storage";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import * as firebase from "firebase";
+import { MainComponent } from './components/board/main/main.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +29,8 @@ import * as firebase from "firebase";
     AuthComponent,
     LoginComponent,
     RegisterComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,

@@ -31,7 +31,7 @@ export class RegisterComponent implements OnInit {
   tryGoogleLogin(){
     this.authService.doGoogleLogin()
       .then(res =>{
-          this.router.navigate(['/map']);
+          this.router.navigate(['/main']);
         }, err => console.log(err)
       )
   }
@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
     this.authService.doRegister(value)
       .then(res => {
         console.warn(res);
-        this.router.navigate(['/map']);
+        this.router.navigate(['/main']);
         // this.errorMessage = "";
         // this.successMessage = "Your account has been created";
       }, err => {
