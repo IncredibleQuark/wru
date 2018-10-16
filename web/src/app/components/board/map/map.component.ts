@@ -4,6 +4,7 @@ import {AngularFireAction, AngularFireDatabase} from "@angular/fire/database";
 import {BehaviorSubject, Observable} from "rxjs";
 import {switchMap} from "rxjs/operators";
 import {AngularFirestore} from "@angular/fire/firestore";
+import {LocationService} from "../../../services/location/location.service";
 
 interface Marker {
   lat: number;
@@ -41,16 +42,21 @@ export class MapComponent implements OnInit {
   public markers: Marker[] = [];
   items$: Observable<AngularFireAction<firebase.database.DataSnapshot>[]>;
   size$: BehaviorSubject<string|null>;
+  private i;
+
 items;
   @ViewChild(AgmMap) map: AgmMap;
 
-  constructor(public db: AngularFirestore) {
+  constructor(public db: AngularFirestore, private locationService: LocationService) {
 
       this.items = db.collection('users').valueChanges();
       // console.warn(db);
-      console.warn(this.items);
-    }
+    this.i = db.collection('users').ref.doc('fNbnw3atEoRkDVPlOLkH').get().then( (res) => {
+      // console.warn(res.data());
+    });
+  // console.warn();
 
+    }
 
   ngOnInit() {
     this.initUserLocation();
@@ -81,6 +87,8 @@ items;
       lng: position.coords.longitude,
       draggable: false
     };
+
+    this.locationService.saveUserLocation(position);
 
   }
 

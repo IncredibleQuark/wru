@@ -15,13 +15,14 @@ import {RegisterComponent} from './components/auth/register/register.component';
 import {RouterModule} from "@angular/router";
 import {rootRouterConfig} from "./app.routes";
 import {AuthGuard} from "./guards/auth.guard";
-import {AuthService} from "./services/auth.service";
+import {AuthService} from "./services/auth/auth.service";
 import {NotFoundComponent} from './components/common/not-found/not-found.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {AngularFireStorageModule} from "@angular/fire/storage";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import * as firebase from "firebase";
 import { MainComponent } from './components/board/main/main.component';
+import {LocationService} from "./services/location/location.service";
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +46,7 @@ import { MainComponent } from './components/board/main/main.component';
     AngularFirestoreModule,
     AngularFireAuthModule
   ],
-  providers: [AuthGuard, AuthService],
+  providers: [AuthGuard, AuthService, LocationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
