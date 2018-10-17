@@ -1,9 +1,19 @@
 <div *ngIf="location">
   <agm-map [(latitude)]="location.lat" [(longitude)]="location.lng" [(zoom)]="location.zoom" [disableDefaultUI]="true"
            [zoomControl]="true">
-    <agm-marker *ngIf="userMarker" [(latitude)]="userMarker.lat" [(longitude)]="userMarker.lng"></agm-marker>
-    <agm-marker *ngFor="let marker of markers" [(latitude)]="marker.lat" [(longitude)]="marker.lng"></agm-marker>
+    <!--<agm-marker *ngIf="userMarker" [(latitude)]="userMarker.lat" [(longitude)]="userMarker.lng"></agm-marker>-->
+    <div *ngFor="let marker of markers | async; index as i">
+      <agm-marker *ngIf="marker.location"  [(latitude)]="marker.location.latitude" [(longitude)]="marker.location.longitude" [iconUrl]="{
+        url: marker.photoURL || null,
+        scaledSize: {
+          height: 20,
+          width: 20
+        }
+      }"></agm-marker>
+    </div>
+
   </agm-map>
 </div>
-<pre *ngFor="let item of items | async">{{item.email}} {{item}}</pre>
+
+<!--<pre *ngFor="let item of markers | async">{{item.location.latitude}} {{item.location.longitude}}</pre>-->
 <!--<button (click)="test()">ssddd</button>-->

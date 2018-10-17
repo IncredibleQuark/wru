@@ -5,14 +5,9 @@ import * as firebase from 'firebase/app';
 import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/firestore";
 import {Observable, of} from "rxjs";
 import { switchMap} from 'rxjs/operators';
+import {IUser} from "../../types/IUser";
 
-interface User {
-  uid: string;
-  email: string;
-  photoURL?: string;
-  displayName?: string;
-  favoriteColor?: string;
-}
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +15,14 @@ interface User {
 
 export class AuthService {
 
-  user: Observable<User>;
+  user: Observable<IUser>;
 
   constructor(public af: AngularFireAuth, private db: AngularFirestore) {
 
     this.user = this.af.authState.pipe(
       switchMap(user => {
         if (user) {
-          return this.db.doc<User>(`users/${user.uid}`).valueChanges()
+          return this.db.doc<IUser>(`users/${user.uid}`).valueChanges()
         } else {
           return of(null)
         }
@@ -92,11 +87,11 @@ export class AuthService {
 
     const userRef: AngularFirestoreDocument<any> = this.db.doc(`users/${user.uid}`);
 
-    const data: User = {
+    const data: IUser = {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      photoURL: user.photoURL
+      photoURL: user.photoURL || 'https://cdn.pixabay.com/photo/2015/12/22/04/00/photo-1103596_960_720.png'
     };
 
     return userRef.set(data, { merge: true })

@@ -39,7 +39,7 @@ export class MapComponent implements OnInit {
   };
 
   public userMarker: Marker;
-  public markers: Marker[] = [];
+  public markers: any;
   items$: Observable<AngularFireAction<firebase.database.DataSnapshot>[]>;
   size$: BehaviorSubject<string|null>;
   private i;
@@ -49,33 +49,25 @@ items;
 
   constructor(public db: AngularFirestore, private locationService: LocationService) {
 
-      this.items = db.collection('users').valueChanges();
-      // console.warn(db);
-    this.i = db.collection('users').ref.doc('fNbnw3atEoRkDVPlOLkH').get().then( (res) => {
-      // console.warn(res.data());
-    });
-  // console.warn();
-
     }
 
   ngOnInit() {
     this.initUserLocation();
+    this.markers = this.db.collection('users').valueChanges();
   }
 
-  test() {
-    // this.db.list('/items').push({ content: 'dfg' });
-  }
 
   initUserLocation() {
 
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition((position) => {
-        // console.warn(position);
+        console.warn('change');
         this.showUserPosition(position);
       });
     } else {
       alert("Geolocation is not supported by this browser.");
     }
+
   }
 
   showUserPosition(position) {
