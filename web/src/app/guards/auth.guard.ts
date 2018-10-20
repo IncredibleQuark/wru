@@ -9,17 +9,7 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {
   }
 
-  // canActivate(): Promise<boolean> {
-  //   return new Promise((resolve, reject) => {
-  //     this.authService.isLoggedIn()
-  //       .then(user => {
-  //         return resolve(true);
-  //       }, err => {
-  //         this.router.navigate(['/auth']);
-  //         return resolve(false);
-  //       })
-  //   })
-  // }
+
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> {
@@ -29,8 +19,7 @@ export class AuthGuard implements CanActivate {
       map(user => !!user),
       tap(loggedIn => {
         if (!loggedIn) {
-          console.log('access denied')
-          this.router.navigate(['/login']);
+          this.router.navigate(['/auth']);
         }
       })
     )
