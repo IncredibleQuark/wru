@@ -40,9 +40,6 @@ export class MapComponent implements OnInit {
 
   public userMarker: Marker;
   public markers: any;
-  items$: Observable<AngularFireAction<firebase.database.DataSnapshot>[]>;
-  size$: BehaviorSubject<string|null>;
-  private i;
 
 items;
   @ViewChild(AgmMap) map: AgmMap;
@@ -59,11 +56,19 @@ items;
 
   initUserLocation() {
 
+    const geoOptions = {
+      enableHighAccuracy: true,
+      timeout: 10 * 1000,
+      maximumAge: 1000
+    };
+
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition((position) => {
         console.warn('change');
         this.showUserPosition(position);
-      });
+      }, (err) => {
+        console.warn(err);
+      }, geoOptions);
     } else {
       alert("Geolocation is not supported by this browser.");
     }
@@ -74,11 +79,11 @@ items;
 
     this.location.lat = position.coords.latitude;
     this.location.lng = position.coords.longitude;
-    this.userMarker = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude,
-      draggable: false
-    };
+    // this.userMarker = {
+    //   lat: position.coords.latitude,
+    //   lng: position.coords.longitude,
+    //   draggable: false
+    // };
 
     this.locationService.saveUserLocation(position);
 
