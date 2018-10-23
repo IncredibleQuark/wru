@@ -46,7 +46,7 @@ export class AuthService {
 
   getCurrentUserUid() {
     console.warn(this.af.auth.currentUser.uid);
-    // return this.af.auth.currentUser.uid;
+    return this.af.auth.currentUser.uid;
   }
 
   doRegister(value) {

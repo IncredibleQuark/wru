@@ -79,23 +79,18 @@ items;
 
     this.location.lat = position.coords.latitude;
     this.location.lng = position.coords.longitude;
-    // this.userMarker = {
-    //   lat: position.coords.latitude,
-    //   lng: position.coords.longitude,
-    //   draggable: false
-    // };
 
     this.locationService.saveUserLocation(position);
 
   }
 
-
-  addOtherUsers(position) {
-    this.markers.push({
-      lat: position.coords.latitude,
-      lng: position.coords.longitude,
-      draggable: false
-    })
-  }
+  //
+  // addOtherUsers(position) {
+  //   this.markers.push({
+  //     lat: position.coords.latitude,
+  //     lng: position.coords.longitude,
+  //     draggable: false
+  //   })
+  // }
 
 }

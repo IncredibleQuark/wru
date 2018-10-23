@@ -26,22 +26,39 @@ export class MapboxComponent implements OnInit {
 
   ngOnInit() {
     this.markers = this.db.collection('users').valueChanges();
-    this.initializeMap()
+
+    // this.markers = this.locationService.getMarkers();
+    this.initializeMap();
   }
 
 
   private initializeMap() {
+
+    const geoOptions = {
+      enableHighAccuracy: true,
+      timeout: 10 * 1000,
+      maximumAge: 1000
+    };
+
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
+      this.buildMap();
+      navigator.geolocation.watchPosition(position => {
+        console.warn(position);
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
         this.map.flyTo({
           center: [this.lng, this.lat]
-        })
-      });
+        });
+
+        this.locationService.saveUserLocation(position);
+      }, err => console.warn(err), geoOptions);
+
+      this.markers.subscribe( (res) => {
+        console.warn(res);
+      })
     }
 
-    this.buildMap()
+
 
   }
 
@@ -49,7 +66,7 @@ export class MapboxComponent implements OnInit {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: this.style,
-      zoom: 13,
+      zoom: 20,
       center: [this.lng, this.lat]
     });
 
@@ -69,17 +86,18 @@ export class MapboxComponent implements OnInit {
     /// Add realtime firebase data on map load
     this.map.on('load', (event) => {
 
-      /// register source
-      this.map.addSource('firebase', {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: []
-        }
-      });
 
-      /// get source
-      this.source = this.map.getSource('firebase');
+      // /// register source
+      // this.map.addSource('firebase', {
+      //   type: 'geojson',
+      //   data: {
+      //     type: 'FeatureCollection',
+      //     features: []
+      //   }
+      // });
+      //
+      // /// get source
+      // this.source = this.map.getSource('firebase');
 
       /// subscribe to realtime database and set data source
       // this.markers.subscribe(markers => {
@@ -110,11 +128,5 @@ export class MapboxComponent implements OnInit {
 
   }
 
-
-  // flyTo(data: any) { console.warn(data);
-  //   this.map.flyTo({
-  //     center: data.location
-  //   })
-  // }
 
 }

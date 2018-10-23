@@ -3,5 +3,5 @@ export interface IUser {
   email: string;
   photoURL?: string;
   displayName?: string;
-  favoriteColor?: string;
+  location?: any;
 }
