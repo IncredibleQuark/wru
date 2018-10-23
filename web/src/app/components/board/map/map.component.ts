@@ -57,9 +57,7 @@ items;
   initUserLocation() {
 
     const geoOptions = {
-      enableHighAccuracy: true,
-      timeout: 10 * 1000,
-      maximumAge: 1000
+      enableHighAccuracy: true
     };
 
     if (navigator.geolocation) {
