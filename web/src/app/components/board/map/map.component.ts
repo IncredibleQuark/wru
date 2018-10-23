@@ -64,7 +64,6 @@ items;
 
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition((position) => {
-        console.warn('change');
         this.showUserPosition(position);
       }, (err) => {
         console.warn(err);
