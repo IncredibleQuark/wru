@@ -23,6 +23,7 @@ import {AngularFirestoreModule} from "@angular/fire/firestore";
 import * as firebase from "firebase";
 import { MainComponent } from './components/board/main/main.component';
 import {LocationService} from "./services/location/location.service";
+import {AgmSnazzyInfoWindowModule} from "@agm/snazzy-info-window";
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {LocationService} from "./services/location/location.service";
     AgmCoreModule.forRoot({
       apiKey: environment.googleApiKey
     }),
+    AgmSnazzyInfoWindowModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     AngularFirestoreModule,

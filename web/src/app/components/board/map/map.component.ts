@@ -1,29 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { AgmMap } from '@agm/core';
-import {AngularFireAction, AngularFireDatabase} from "@angular/fire/database";
-import {BehaviorSubject, Observable} from "rxjs";
-import {switchMap} from "rxjs/operators";
-import {AngularFirestore} from "@angular/fire/firestore";
-import {LocationService} from "../../../services/location/location.service";
+import {AngularFirestore} from '@angular/fire/firestore';
+import {LocationService} from '../../../services/location/location.service';
+import {AuthService} from '../../../services/auth/auth.service';
 
 interface Marker {
   lat: number;
   lng: number;
   label?: string;
   draggable: boolean;
-}
-
-interface GMapLocation {
-  lat: number;
-  lng: number;
-  viewport?: Object;
-  zoom: number;
-  address_level_1?:string;
-  address_level_2?: string;
-  address_country?: string;
-  address_zip?: string;
-  address_state?: string;
-  marker?: Marker;
 }
 
 @Component({
@@ -34,23 +19,23 @@ interface GMapLocation {
 
 export class MapComponent implements OnInit {
 
-  public location:any = {
+  public location: any = {
     zoom: 18
   };
 
-  public userMarker: Marker;
-  public markers: any;
+  public users: any;
 
 items;
   @ViewChild(AgmMap) map: AgmMap;
 
-  constructor(public db: AngularFirestore, private locationService: LocationService) {
+  constructor(public db: AngularFirestore, private locationService: LocationService, private authService: AuthService) {
 
     }
 
   ngOnInit() {
     this.initUserLocation();
-    this.markers = this.db.collection('users').valueChanges();
+    this.users = this.db.collection('users').valueChanges();
+
   }
 
 
@@ -67,7 +52,7 @@ items;
         console.warn(err);
       }, geoOptions);
     } else {
-      alert("Geolocation is not supported by this browser.");
+      alert('Geolocation is not supported by this browser.');
     }
 
   }

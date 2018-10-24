@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {AngularFirestore} from "@angular/fire/firestore";
+import {AngularFirestore} from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
-import {AuthService} from "../auth/auth.service";
-import {AngularFireAuth} from "@angular/fire/auth";
-import {IUser} from "../../types/IUser";
+import {AuthService} from '../auth/auth.service';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {IUser} from '../../types/IUser';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +25,8 @@ export class LocationService {
     if (this.user && position) {
       const locationData = new firebase.firestore.GeoPoint(position.coords.latitude, position.coords.longitude);
       this.db.doc(`users/${this.user.uid}`).update({location: locationData}).then(res => {
-        return true
-      }, err => console.warn(err))
+        return true;
+      }, err => console.warn(err));
     }
   }
 

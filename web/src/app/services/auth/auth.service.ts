@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import {AngularFireAuth} from "@angular/fire/auth";
+import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
-import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/firestore";
-import {Observable, of} from "rxjs";
+import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
+import {Observable, of} from 'rxjs';
 import { switchMap} from 'rxjs/operators';
-import {IUser} from "../../types/IUser";
+import {IUser} from '../../types/IUser';
 
 
 
@@ -22,30 +22,29 @@ export class AuthService {
     this.user = this.af.authState.pipe(
       switchMap(user => {
         if (user) {
-          return this.db.doc<IUser>(`users/${user.uid}`).valueChanges()
+          return this.db.doc<IUser>(`users/${user.uid}`).valueChanges();
         } else {
-          return of(null)
+          return of(null);
         }
       })
-    )
+    );
 
   }
 
 
   isLoggedIn() {
     return new Promise<any>((resolve, reject) => {
-      let user = firebase.auth().onAuthStateChanged((user) => {
+      const user = firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           resolve(user);
         } else {
           reject('No user logged in');
         }
-      })
-    })
+      });
+    });
   }
 
   getCurrentUserUid() {
-    console.warn(this.af.auth.currentUser.uid);
     return this.af.auth.currentUser.uid;
   }
 
@@ -60,13 +59,13 @@ export class AuthService {
 
         }, err2 => {
           reject(err2);
-        })
-    })
+        });
+    });
   }
 
-  doGoogleLogin(){
+  doGoogleLogin() {
     return new Promise<any>((resolve, reject) => {
-      let provider = new firebase.auth.GoogleAuthProvider();
+      const provider = new firebase.auth.GoogleAuthProvider();
       provider.addScope('profile');
       provider.addScope('email');
       this.af.auth
@@ -79,8 +78,8 @@ export class AuthService {
             resolve(res);
           }
 
-        }, err2 => reject(err2))
-    })
+        }, err2 => reject(err2));
+    });
   }
 
   private updateUserData(user) {
@@ -94,7 +93,7 @@ export class AuthService {
       photoURL: user.photoURL || 'https://cdn.pixabay.com/photo/2015/12/22/04/00/photo-1103596_960_720.png'
     };
 
-    return userRef.set(data, { merge: true })
+    return userRef.set(data, { merge: true });
 
   }
 
@@ -103,8 +102,7 @@ export class AuthService {
       if (firebase.auth().currentUser) {
         this.af.auth.signOut();
         resolve();
-      }
-      else {
+      } else {
         reject();
       }
     });

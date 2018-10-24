@@ -1,19 +1,38 @@
 <div *ngIf="location">
-  <agm-map [(latitude)]="location.lat" [(longitude)]="location.lng" [(zoom)]="location.zoom" [disableDefaultUI]="true"
+  <agm-map [(latitude)]="location.lat" [(longitude)]="location.lng" [(zoom)]="location.zoom"
            [zoomControl]="true">
 
-    <div *ngFor="let marker of markers | async; index as i">
-      <agm-marker *ngIf="marker.location"  [(latitude)]="marker.location.latitude" [(longitude)]="marker.location.longitude" [iconUrl]="{
-        url: marker.photoURL || null,
+    <div *ngFor="let user of users | async; index as i">
+      <agm-marker [opacity]="user.loggedIn? 1 : 1" [title]="user.displayName" *ngIf="user.location"  [(latitude)]="user.location.latitude" [(longitude)]="user.location.longitude"
+                  [iconUrl]="{
+        url: user.photoURL || null,
         scaledSize: {
           height: 20,
           width: 20
         }
-      }"></agm-marker>
+      }">
+        <agm-snazzy-info-window [maxWidth]="500" [showCloseButton]="false" [closeWhenOthersOpen]="false" [border]="{width: '1px', color: 'red'}" [shadow]="{
+    h: '0px',
+    v: '3px',
+    blur: '6px',
+    spread: '0px',
+    opacity: 0.5,
+    color: '#000'
+}">
+          <ng-template>
+            <div style="width: 200px">
+              <span>{{user.status}}</span>
+              <span>Status: {{user.loggedIn? 'Online': 'Offline'}}</span>
+
+            </div>
+          </ng-template>
+        </agm-snazzy-info-window>
+      </agm-marker>
+
     </div>
 
   </agm-map>
 </div>
 
-<!--<pre *ngFor="let item of markers | async">{{item.location.latitude}} {{item.location.longitude}}</pre>-->
+<!--<pre *ngFor="let item of users | async">{{item.location.latitude}} {{item.location.longitude}}</pre>-->
 <!--<button (click)="test()">ssddd</button>-->
