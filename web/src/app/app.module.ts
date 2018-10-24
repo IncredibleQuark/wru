@@ -23,7 +23,7 @@ import {AngularFirestoreModule} from "@angular/fire/firestore";
 import * as firebase from "firebase";
 import { MainComponent } from './components/board/main/main.component';
 import {LocationService} from "./services/location/location.service";
-import { MapboxComponent } from './components/board/mapbox/mapbox.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,8 +32,7 @@ import { MapboxComponent } from './components/board/mapbox/mapbox.component';
     LoginComponent,
     RegisterComponent,
     NotFoundComponent,
-    MainComponent,
-    MapboxComponent
+    MainComponent
   ],
   imports: [
     BrowserModule,
